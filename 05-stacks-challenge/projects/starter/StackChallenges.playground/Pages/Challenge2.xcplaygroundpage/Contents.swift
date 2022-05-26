@@ -14,7 +14,51 @@
  ```
  */
 var testString1 = "h((e))llo(world)()"
+var testString2 = "h(((e))llo(world)()"
+var testString3 = "h((e))llo(world)())"
 
 // your code here
+struct Stack<Element> {
+    private var storage: [Element] = []
+    
+    init(_ elements: [Element] = []) {
+        storage = elements
+    }
+    
+    mutating func push(_ element: Element) {
+        storage.append(element)
+    }
+    
+    @discardableResult
+    mutating func pop() -> Element? {
+        storage.popLast()
+    }
+    
+    func isEmpty() -> Bool {
+        storage.last == nil
+    }
+}
+
+func checkParentheses(_ string: String) -> Bool {
+    var stack = Stack<Character>()
+    
+    for char in string {
+        if char == "(" {
+            stack.push(char)
+        } else if char == ")" {
+            if stack.isEmpty() {
+                return false
+            } else {
+                stack.pop()
+            }
+        }
+    }
+    
+    return stack.isEmpty()
+}
+
+checkParentheses(testString1)
+checkParentheses(testString2)
+checkParentheses(testString3)
 
 // checkParentheses(testString1) // should be true
